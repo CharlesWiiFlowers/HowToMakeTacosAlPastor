@@ -1,0 +1,168 @@
+/* --- Ingredients -------------------------------------------------------- */
+
+.ingredients__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem 1.5rem;
+  padding: 1.1rem 1.4rem;
+  margin-bottom: 1.6rem;
+}
+
+.ingredients__progress-copy {
+  display: grid;
+  gap: 0.55rem;
+  flex: 1 1 260px;
+  min-width: 0;
+}
+
+.ingredients__count {
+  font-size: 0.98rem;
+  color: var(--text-muted);
+}
+
+.ingredients__count strong {
+  color: var(--heading);
+  font-size: 1.08rem;
+}
+
+.ingredients__reset {
+  padding: 0.55rem 1.1rem;
+  font-size: 0.9rem;
+}
+
+.ingredients__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(268px, 1fr));
+  gap: 1.1rem;
+  align-items: start;
+}
+
+.ingredient-card {
+  min-width: 0;
+  margin: 0;
+  padding: 1.25rem 1.35rem 1.35rem;
+  border: 1px solid var(--border);
+}
+
+.ingredient-card__legend {
+  padding: 0 0.4rem;
+  margin-left: 0.2rem;
+  margin-bottom: 0.85rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.ingredient-card__list {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.ingredient {
+  display: grid;
+  grid-template-columns: auto auto 1fr;
+  align-items: center;
+  gap: 0.15rem 0.6rem;
+  padding: 0.5rem 0.55rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color var(--dur) var(--ease);
+}
+
+.ingredient:hover {
+  background: var(--accent-soft);
+}
+
+.ingredient__input {
+  grid-column: 1;
+  grid-row: 1;
+  align-self: center;
+  /* Native checkbox stays for interaction and assistive tech; the custom
+     box below renders on top of it. */
+  opacity: 0;
+  width: 1.15rem;
+  height: 1.15rem;
+  margin: 0;
+  cursor: pointer;
+}
+
+/* Custom checkbox visual (native input remains for interaction/a11y). */
+.ingredient__box {
+  grid-column: 1;
+  grid-row: 1;
+  align-self: center;
+  display: grid;
+  place-items: center;
+  width: 1.15rem;
+  height: 1.15rem;
+  border: 1.5px solid var(--border-strong);
+  border-radius: 6px;
+  background: var(--surface-strong);
+  color: transparent;
+  transition:
+    background-color var(--dur) var(--ease),
+    border-color var(--dur) var(--ease),
+    color var(--dur) var(--ease);
+}
+
+.ingredient__box svg {
+  width: 12px;
+  height: 12px;
+}
+
+.ingredient__input:checked + .ingredient__box {
+  background: var(--gradient);
+  border-color: transparent;
+  color: #fdfaff;
+}
+
+:root[data-theme='dark'] .ingredient__input:checked + .ingredient__box {
+  color: #160d30;
+}
+
+.ingredient__input:focus-visible + .ingredient__box {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.ingredient__quantity {
+  font-size: 0.84rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--accent);
+  white-space: nowrap;
+}
+
+.ingredient__name {
+  grid-column: 2 / -1;
+  font-size: 0.95rem;
+  color: var(--text);
+  overflow-wrap: anywhere;
+  transition: color var(--dur) var(--ease);
+}
+
+.ingredient--checked .ingredient__name {
+  color: var(--text-muted);
+  text-decoration: line-through;
+  text-decoration-color: var(--accent-border);
+}
+
+/* --- Responsive --------------------------------------------------------- */
+
+@media (max-width: 640px) {
+  .ingredients__toolbar {
+    padding: 1rem 1.1rem;
+  }
+
+  .ingredients__reset {
+    width: 100%;
+  }
+
+  .ingredients__grid {
+    grid-template-columns: 1fr;
+  }
+}

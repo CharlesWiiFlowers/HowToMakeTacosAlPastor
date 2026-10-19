@@ -1,0 +1,66 @@
+/* --- Tips --------------------------------------------------------------- */
+
+.tips__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.1rem;
+}
+
+.tip {
+  display: grid;
+  gap: 0.4rem;
+  align-content: start;
+  padding: 1.35rem 1.4rem;
+  transition:
+    border-color var(--dur) var(--ease),
+    transform var(--dur) var(--ease),
+    box-shadow var(--dur) var(--ease);
+}
+
+.tip:hover {
+  border-color: var(--border-strong);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-pop);
+}
+
+.tip__index {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.tip__title {
+  font-size: 1.1rem;
+}
+
+.tip__description {
+  font-size: 0.93rem;
+  color: var(--text-muted);
+}
+
+.tips__note {
+  margin-top: 1.4rem;
+  padding: clamp(1.2rem, 3vw, 1.75rem);
+  background: var(--pink-soft);
+  border-color: var(--accent-border);
+}
+
+.tips__note-title {
+  margin-bottom: 0.5rem;
+  font-size: 1.02rem;
+  color: var(--accent);
+}
+
+.tips__note p {
+  max-width: 72ch;
+  font-size: 0.96rem;
+}
+
+.tips__note em {
+  color: var(--heading);
+  font-style: italic;
+}

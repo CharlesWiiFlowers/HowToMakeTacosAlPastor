@@ -1,0 +1,218 @@
+/* --- Process ------------------------------------------------------------ */
+
+.process__start {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.9rem 1.2rem;
+  margin-bottom: 2rem;
+}
+
+.process__start-hint {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+}
+
+/* Cooking mode panel */
+
+.cooking {
+  margin-bottom: 2.25rem;
+  padding: clamp(1.1rem, 3vw, 1.75rem);
+  border-color: var(--accent-border);
+  box-shadow: var(--shadow-pop);
+}
+
+.cooking__header {
+  display: grid;
+  gap: 0.6rem;
+  margin-bottom: 1.35rem;
+}
+
+.cooking__step-label {
+  font-size: 0.92rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.cooking__step-label strong {
+  color: var(--accent);
+  font-size: 1rem;
+}
+
+.cooking__single {
+  display: block;
+}
+
+.cooking__controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.7rem;
+  margin-top: 1.5rem;
+  padding-top: 1.3rem;
+  border-top: 1px dashed var(--border-strong);
+}
+
+.cooking__controls-secondary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  margin-left: auto;
+}
+
+/* Full step list */
+
+.process__list-title {
+  margin-bottom: 1.2rem;
+  font-size: 1.05rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.process__list {
+  display: grid;
+  gap: 1rem;
+  max-width: 820px;
+}
+
+/* Step card */
+
+.step {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1rem;
+  padding: clamp(1.05rem, 2.5vw, 1.5rem);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  transition:
+    border-color var(--dur) var(--ease),
+    box-shadow var(--dur) var(--ease),
+    transform var(--dur) var(--ease);
+}
+
+.step:hover {
+  border-color: var(--border-strong);
+}
+
+.step--active {
+  border-color: var(--accent-border);
+  background: var(--surface-hover);
+  box-shadow: 0 0 0 1px var(--accent-border), var(--shadow-pop);
+  transform: translateY(-1px);
+}
+
+.step__marker {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  background: var(--accent-soft);
+  border: 1px solid var(--accent-border);
+  color: var(--accent);
+  font-size: 1.05rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.step--active .step__marker {
+  background: var(--gradient);
+  border-color: transparent;
+  color: #fdfaff;
+}
+
+:root[data-theme='dark'] .step--active .step__marker {
+  color: #160d30;
+}
+
+.step__body {
+  min-width: 0;
+}
+
+.step__meta {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.35rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.step__title {
+  font-size: 1.22rem;
+}
+
+.step__title:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
+.step__description {
+  margin-top: 0.55rem;
+  font-size: 0.98rem;
+}
+
+.step__note {
+  margin-top: 0.85rem;
+  padding: 0.7rem 0.9rem;
+  border-left: 3px solid var(--accent-border);
+  border-radius: 0 var(--radius-inner) var(--radius-inner) 0;
+  background: var(--accent-soft);
+  font-size: 0.9rem;
+  color: var(--text);
+}
+
+.step__note-label {
+  display: block;
+  margin-bottom: 0.15rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+/* --- Responsive --------------------------------------------------------- */
+
+@media (max-width: 640px) {
+  .process__start .btn {
+    width: 100%;
+  }
+
+  .step {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .step__marker {
+    width: 36px;
+    height: 36px;
+    border-radius: 12px;
+    font-size: 0.95rem;
+  }
+
+  .cooking__controls {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .cooking__controls .btn {
+    width: 100%;
+  }
+
+  .cooking__controls-secondary {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-left: 0;
+    width: 100%;
+  }
+}

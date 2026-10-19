@@ -4,7 +4,33 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>howtomaketacosalpastor</title>
+    <meta
+      name="description"
+      content="A cosmic cooking journal: learn to make authentic Mexican tacos al pastor at home, step by step, with a complete checklist, kitchen tips, and an interactive cooking mode."
+    />
+    <title>Tacos al Pastor — A Cosmic Place Recipe</title>
+    <script>
+      // Apply the stored theme before first paint to avoid a flash of the wrong theme.
+      ;(function () {
+        try {
+          var stored = localStorage.getItem('al-pastor-theme')
+          var preference =
+            stored === 'light' || stored === 'dark' || stored === 'system' ? stored : 'system'
+          var theme =
+            preference === 'system'
+              ? window.matchMedia('(prefers-color-scheme: dark)').matches
+                ? 'dark'
+                : 'light'
+              : preference
+          document.documentElement.dataset.theme = theme
+          if (localStorage.getItem('al-pastor-stars') === 'off') {
+            document.documentElement.dataset.stars = 'off'
+          }
+        } catch (e) {
+          document.documentElement.dataset.theme = 'dark'
+        }
+      })()
+    </script>
   </head>
   <body>
     <div id="root"></div>
