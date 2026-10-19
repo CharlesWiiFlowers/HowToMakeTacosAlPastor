@@ -1,54 +1,39 @@
-import { useCallback, useEffect, useState } from 'react'
 import Navbar from './components/Navbar'
+import ParticleField from './components/ParticleField'
 import Starfield from './components/Starfield'
 import Hero from './components/Hero'
 import Ingredients from './components/Ingredients'
 import Process from './components/Process'
 import Tips from './components/Tips'
 import Outro from './components/Outro'
+import { usePrefersReducedMotion } from './hooks/usePrefersReducedMotion'
+import { useStarfieldMode } from './hooks/useStarfieldMode'
 import { useTheme } from './hooks/useTheme'
 
-const STARS_STORAGE_KEY = 'al-pastor-stars'
-
-function readStarsEnabled(): boolean {
-  try {
-    return localStorage.getItem(STARS_STORAGE_KEY) !== 'off'
-  } catch {
-    return true
-  }
-}
-
 function App() {
-  const { preference, setPreference } = useTheme()
-  const [starsOn, setStarsOn] = useState(readStarsEnabled)
+  const { preference, resolvedTheme, setPreference } = useTheme()
+  const { mode, setMode } = useStarfieldMode()
+  const prefersReducedMotion = usePrefersReducedMotion()
 
-  useEffect(() => {
-    document.documentElement.dataset.stars = starsOn ? 'on' : 'off'
-  }, [starsOn])
-
-  const toggleStars = useCallback(() => {
-    setStarsOn((previous) => {
-      const next = !previous
-      try {
-        localStorage.setItem(STARS_STORAGE_KEY, next ? 'on' : 'off')
-      } catch {
-        // Persistence is optional; the toggle still works.
-      }
-      return next
-    })
-  }, [])
+  // The saved setting is always kept: when reduced motion is requested, the
+  // animated mode quietly degrades to the lightweight static starfield.
+  const animatedBlocked = mode === 'animated' && prefersReducedMotion
+  const showAnimatedField = mode === 'animated' && !prefersReducedMotion
+  const showStaticStars = mode === 'static' || animatedBlocked
 
   return (
     <>
-      {starsOn ? <Starfield /> : null}
+      {showStaticStars ? <Starfield /> : null}
+      {showAnimatedField ? <ParticleField theme={resolvedTheme} /> : null}
       <a className="skip-link" href="#recipe">
         Skip to content
       </a>
       <Navbar
         theme={preference}
         onThemeChange={setPreference}
-        starsOn={starsOn}
-        onToggleStars={toggleStars}
+        starfieldMode={mode}
+        onStarfieldModeChange={setMode}
+        starfieldFallbackActive={animatedBlocked}
       />
       <main>
         <Hero />

@@ -28,10 +28,24 @@ export default function Outro() {
 
       <footer className="site-footer">
         <div className="container site-footer__inner">
-          <p>Made with love, chiles, and a little cosmic curiosity.</p>
-          <p className="site-footer__credit">
-            A recipe journal in the spirit of <span>Cosmic Place</span>.
-          </p>
+          <div className="site-footer__brand">
+            <img
+              className="site-footer__logo"
+              src="/unu.webp"
+              alt=""
+              width="500"
+              height="500"
+            />
+            <span>
+              Cosmic Place <span aria-hidden="true">|</span> Tacos
+            </span>
+          </div>
+          <div className="site-footer__text">
+            <p>Made with love, chiles, and a little cosmic curiosity.</p>
+            <p className="site-footer__credit">
+              A recipe journal in the spirit of <span>Cosmic Place</span>.
+            </p>
+          </div>
         </div>
       </footer>
     </>

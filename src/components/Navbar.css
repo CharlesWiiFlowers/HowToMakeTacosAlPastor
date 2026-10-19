@@ -20,7 +20,7 @@
 .navbar__brand {
   display: inline-flex;
   align-items: center;
-  gap: 0.55rem;
+  gap: 0.5rem;
   font-size: 1.12rem;
   font-weight: 700;
   letter-spacing: 0.01em;
@@ -28,13 +28,36 @@
   white-space: nowrap;
 }
 
-.navbar__brand:hover {
-  color: var(--accent);
+.navbar__brand:hover .navbar__brand-logo {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
 }
 
-.navbar__brand-mark {
-  width: 26px;
-  height: 26px;
+/* 500x500 source image: a fixed square box with `object-fit` keeps the aspect
+   ratio on every viewport without ever stretching the logo. */
+.navbar__brand-logo {
+  flex: none;
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--accent-soft);
+  transition:
+    border-color var(--dur) var(--ease),
+    box-shadow var(--dur) var(--ease);
+}
+
+.navbar__brand-name {
+  color: var(--heading);
+}
+
+.navbar__brand-divider {
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+.navbar__brand-product {
   color: var(--accent);
 }
 
@@ -78,6 +101,7 @@
   font-size: 0.82rem;
   font-weight: 600;
   color: var(--text-muted);
+  white-space: nowrap;
 }
 
 .nav-select {
@@ -94,12 +118,6 @@
 
 .nav-select:hover {
   border-color: var(--accent-border);
-}
-
-.navbar__stars {
-  padding: 0.5rem 0.95rem;
-  font-size: 0.88rem;
-  border-radius: 10px;
 }
 
 .navbar__burger {
@@ -130,7 +148,9 @@
 
 /* --- Responsive --------------------------------------------------------- */
 
-@media (max-width: 900px) {
+/* The navbar carries a brand lockup plus two selects (theme and starfield),
+   so the burger takes over earlier than the previous single-control layout. */
+@media (max-width: 1080px) {
   .navbar__links,
   .navbar__controls {
     display: none;
@@ -171,6 +191,29 @@
     margin-top: 0.9rem;
     padding-top: 0.9rem;
     border-top: 1px solid var(--border);
+  }
+
+  .navbar__mobile-controls .nav-control {
+    flex: 1 1 220px;
+    justify-content: space-between;
+  }
+
+  .navbar__mobile-controls .nav-select {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+}
+
+@media (max-width: 420px) {
+  .navbar__brand {
+    gap: 0.4rem;
+    font-size: 1rem;
+  }
+
+  .navbar__brand-logo {
+    width: 28px;
+    height: 28px;
+    border-radius: 9px;
   }
 }
 

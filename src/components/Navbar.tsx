@@ -1,6 +1,9 @@
 import { useId, useState } from 'react'
+import type { StarfieldMode } from '../hooks/useStarfieldMode'
 import type { ThemePreference } from '../hooks/useTheme'
 import './Navbar.css'
+
+const BRAND_LOGO_URL = '/unu.webp'
 
 const NAV_LINKS = [
   { href: '#recipe', label: 'The Recipe' },
@@ -9,52 +12,94 @@ const NAV_LINKS = [
   { href: '#tips', label: 'Tips' },
 ]
 
-const THEME_OPTIONS: { value: ThemePreference; label: string }[] = [
+interface NavSelectOption<T extends string> {
+  value: T
+  label: string
+}
+
+const THEME_OPTIONS: readonly NavSelectOption<ThemePreference>[] = [
   { value: 'system', label: 'System' },
   { value: 'light', label: 'Light' },
   { value: 'dark', label: 'Dark' },
 ]
 
+const STARFIELD_OPTIONS: readonly NavSelectOption<StarfieldMode>[] = [
+  { value: 'off', label: 'Off' },
+  { value: 'static', label: 'Static Stars' },
+  { value: 'animated', label: 'Animated Stars' },
+]
+
+const REDUCED_MOTION_NOTE =
+  'Reduced motion is enabled on this device, so static stars are shown instead of animation.'
+
 interface NavbarProps {
   theme: ThemePreference
   onThemeChange: (theme: ThemePreference) => void
-  starsOn: boolean
-  onToggleStars: () => void
+  starfieldMode: StarfieldMode
+  onStarfieldModeChange: (mode: StarfieldMode) => void
+  /** True when the animated mode is selected but reduced motion prevents it. */
+  starfieldFallbackActive: boolean
 }
 
-function ThemeSelect(props: {
-  theme: ThemePreference
-  onThemeChange: (theme: ThemePreference) => void
+function NavSelect<T extends string>({
+  id,
+  label,
+  value,
+  options,
+  onChange,
+  description,
+}: {
   id: string
+  label: string
+  value: T
+  options: readonly NavSelectOption<T>[]
+  onChange: (value: T) => void
+  description?: string
 }) {
+  const descriptionId = `${id}-description`
+
   return (
     <div className="nav-control">
-      <label className="nav-control__label" htmlFor={props.id}>
-        Theme
+      <label className="nav-control__label" htmlFor={id}>
+        {label}
       </label>
       <select
-        id={props.id}
+        id={id}
         className="nav-select"
-        value={props.theme}
-        onChange={(event) => props.onThemeChange(event.target.value as ThemePreference)}
+        value={value}
+        aria-describedby={description ? descriptionId : undefined}
+        onChange={(event) => onChange(event.target.value as T)}
       >
-        {THEME_OPTIONS.map((option) => (
+        {options.map((option) => (
           <option key={option.value} value={option.value}>
             {option.label}
           </option>
         ))}
       </select>
+      {description ? (
+        <span id={descriptionId} className="sr-only">
+          {description}
+        </span>
+      ) : null}
     </div>
   )
 }
 
-export default function Navbar({ theme, onThemeChange, starsOn, onToggleStars }: NavbarProps) {
+export default function Navbar({
+  theme,
+  onThemeChange,
+  starfieldMode,
+  onStarfieldModeChange,
+  starfieldFallbackActive,
+}: NavbarProps) {
   const [menuOpen, setMenuOpen] = useState(false)
   const menuId = useId()
   const desktopThemeId = useId()
+  const desktopStarfieldId = useId()
   const mobileThemeId = useId()
+  const mobileStarfieldId = useId()
 
-  const starLabel = starsOn ? 'Hide stars' : 'Show stars'
+  const starfieldDescription = starfieldFallbackActive ? REDUCED_MOTION_NOTE : undefined
 
   return (
     <header className="site-header">
@@ -62,31 +107,21 @@ export default function Navbar({ theme, onThemeChange, starsOn, onToggleStars }:
         <a
           className="navbar__brand"
           href="#recipe"
+          aria-label="Cosmic Place | Tacos"
           onClick={() => setMenuOpen(false)}
         >
-          <svg
-            className="navbar__brand-mark"
-            viewBox="0 0 24 24"
-            aria-hidden="true"
-            focusable="false"
-          >
-            <path
-              d="M3 16.5a9 9 0 0 1 18 0Z"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.8"
-              strokeLinejoin="round"
-            />
-            <path
-              d="M6.5 13.5c1.4-1.6 2.9-1.6 4.3 0s2.9 1.6 4.3 0 2.4-1.4 2.4-1.4"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.6"
-              strokeLinecap="round"
-            />
-            <path d="M12 3.2v2M19 6.4l-1.3 1.3M5 6.4l1.3 1.3" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-          </svg>
-          <span>Al Pastor</span>
+          <img
+            className="navbar__brand-logo"
+            src={BRAND_LOGO_URL}
+            alt=""
+            width="500"
+            height="500"
+          />
+          <span className="navbar__brand-name">Cosmic Place</span>
+          <span className="navbar__brand-divider" aria-hidden="true">
+            |
+          </span>
+          <span className="navbar__brand-product">Tacos</span>
         </a>
 
         <ul className="navbar__links">
@@ -100,24 +135,21 @@ export default function Navbar({ theme, onThemeChange, starsOn, onToggleStars }:
         </ul>
 
         <div className="navbar__controls">
-          <ThemeSelect id={desktopThemeId} theme={theme} onThemeChange={onThemeChange} />
-          <button
-            type="button"
-            className="btn btn-ghost navbar__stars"
-            aria-pressed={starsOn}
-            onClick={onToggleStars}
-          >
-            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" width="16" height="16">
-              <path
-                d="m12 3 1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9Z"
-                fill={starsOn ? 'currentColor' : 'none'}
-                stroke="currentColor"
-                strokeWidth="1.6"
-                strokeLinejoin="round"
-              />
-            </svg>
-            {starLabel}
-          </button>
+          <NavSelect
+            id={desktopThemeId}
+            label="Theme"
+            value={theme}
+            options={THEME_OPTIONS}
+            onChange={onThemeChange}
+          />
+          <NavSelect
+            id={desktopStarfieldId}
+            label="Starfield mode"
+            value={starfieldMode}
+            options={STARFIELD_OPTIONS}
+            onChange={onStarfieldModeChange}
+            description={starfieldDescription}
+          />
         </div>
 
         <button
@@ -159,24 +191,21 @@ export default function Navbar({ theme, onThemeChange, starsOn, onToggleStars }:
           ))}
         </ul>
         <div className="navbar__mobile-controls">
-          <ThemeSelect id={mobileThemeId} theme={theme} onThemeChange={onThemeChange} />
-          <button
-            type="button"
-            className="btn btn-ghost navbar__stars"
-            aria-pressed={starsOn}
-            onClick={onToggleStars}
-          >
-            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" width="16" height="16">
-              <path
-                d="m12 3 1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9Z"
-                fill={starsOn ? 'currentColor' : 'none'}
-                stroke="currentColor"
-                strokeWidth="1.6"
-                strokeLinejoin="round"
-              />
-            </svg>
-            {starLabel}
-          </button>
+          <NavSelect
+            id={mobileThemeId}
+            label="Theme"
+            value={theme}
+            options={THEME_OPTIONS}
+            onChange={onThemeChange}
+          />
+          <NavSelect
+            id={mobileStarfieldId}
+            label="Starfield mode"
+            value={starfieldMode}
+            options={STARFIELD_OPTIONS}
+            onChange={onStarfieldModeChange}
+            description={starfieldDescription}
+          />
         </div>
       </div>
     </header>
