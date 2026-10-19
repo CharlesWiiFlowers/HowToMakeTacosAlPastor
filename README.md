@@ -1,5 +1,8 @@
 # Cosmic Place | Tacos — Tacos al Pastor Recipe Experience
 
+> [!NOTE]
+> I built this entire project with AI just for fun lol. I should be working on my university assignments, but here I am doing this instead. 💀
+
 A polished, fully responsive, static recipe website that teaches you how to prepare
 authentic Mexican tacos al pastor, step by step — wrapped in a cosmic-themed cooking
 journal inspired by the **Cosmic Place** portfolio design language.
