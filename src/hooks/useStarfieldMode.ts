@@ -4,7 +4,7 @@ export type StarfieldMode = 'off' | 'static' | 'animated'
 
 export const STARFIELD_STORAGE_KEY = 'al-pastor-stars'
 
-const DEFAULT_MODE: StarfieldMode = 'static'
+const DEFAULT_MODE: StarfieldMode = 'animated'
 
 /**
  * Reads the saved starfield mode.
