@@ -3,7 +3,7 @@ import type { StarfieldMode } from '../hooks/useStarfieldMode'
 import type { ThemePreference } from '../hooks/useTheme'
 import './Navbar.css'
 
-const BRAND_LOGO_URL = '/unu.webp'
+const BRAND_LOGO_URL = `${import.meta.env.BASE_URL}unu.webp`
 
 const NAV_LINKS = [
   { href: '#recipe', label: 'The Recipe' },
